@@ -1,0 +1,137 @@
+body {
+ margin: 0px ;
+ padding: 0px ;
+ background: #000000 ;
+ font-family: Helvetica ;
+ font-size: 14px ;
+ color:#FFFFFF;
+}
+
+#logos {
+	position:relative;  
+	-moz-perspective: 800px;
+	-ms-perspective: 800px;
+   -webkit-perspective: 800px;
+   -o-perspective: 800px;
+   perspective: 800px; 
+}
+
+.face{
+	position: absolute;
+	top: 0px;  left: 0px;
+	height: 200px;  width: 200px;
+}
+
+.grid{
+	position: relative;
+	width:20px;height:20px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	float: left;
+	display:block;
+}
+
+#cube {
+  display: block;  position: relative;  margin: 30px auto;
+  height: 200px;  width: 200px;
+  -moz-transform-style: preserve-3d;
+  -moz-transform:rotateX(0) rotateY(0) rotateZ(0);
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform: rotateX(0) rotateY(0) rotateZ(0);
+  -ms-transform-style: preserve-3d;
+  -ms-transform: rotateX(0) rotateY(0) rotateZ(0);
+  -o-transform-style: preserve-3d;
+  -o-transform: rotateX(0) rotateY(0) rotateZ(0);
+  transform-style: preserve-3d;
+  transform: rotateX(0) rotateY(0) rotateZ(0);
+
+}
+#front {
+  background-color: green;
+  position: absolute;  height: 200px;  width: 200px;
+  -moz-backface-visibility: visible;
+  -moz-transform:  translateZ(100px);
+  -webkit-backface-visibility: visible;
+  -webkit-transform:  translateZ(100px);
+  -ms-backface-visibility: visible;
+  -ms-transform:  translateZ(100px);
+  -o-backface-visibility: visible;
+  -o-transform:  translateZ(100px);
+  backface-visibility: visible;
+  transform:  translateZ(100px);
+}
+#back {
+  background-color: yellow;
+  position: absolute;  height: 200px;  width: 200px;
+  -moz-backface-visibility: visible;
+  -moz-transform:  rotateY(180deg) translateZ(100px);
+  -ms-backface-visibility: visible;
+  -ms-transform:  rotateY(180deg) translateZ(100px);
+  -webkit-backface-visibility: visible;
+  -webkit-transform:  rotateY(180deg) translateZ(100px);
+  -o-backface-visibility: visible;
+  -o-transform: rotateY(180deg) translateZ(100px);
+  backface-visibility: visible;
+  transform: rotateY(180deg) translateZ(100px);
+}
+
+#side1 {
+  background-color: white;
+  position: absolute;  height: 200px;  width: 200px;
+  -moz-backface-visibility: visible;
+  -moz-transform:  rotateY(90deg) translateZ(100px);
+  -ms-backface-visibility: visible;
+  -ms-transform:  rotateY(90deg) translateZ(100px);
+  -webkit-backface-visibility: visible;
+  -webkit-transform:  rotateY(90deg) translateZ(100px);
+  -o-backface-visibility: visible;
+  -o-transform: rotateY(90deg) translateZ(100px);
+  backface-visibility: visible;
+  transform: rotateY(90deg) translateZ(100px);
+}
+
+#side2 {
+  background-color: gray;
+  position: absolute;  height: 200px;  width: 200px;
+  -moz-backface-visibility: visible;
+  -moz-transform:  rotateY(270deg) translateZ(100px);
+  -ms-backface-visibility: visible;
+  -ms-transform:  rotateY(270deg) translateZ(100px);
+  -webkit-backface-visibility: visible;
+  -webkit-transform:  rotateY(270deg) translateZ(100px);
+  -o-backface-visibility: visible;
+  -o-transform: rotateY(270deg) translateZ(100px);
+  backface-visibility: visible;
+  transform: rotateY(270deg) translateZ(100px);
+}
+
+#bottom {
+  background-color: red;
+  position: absolute;  height: 200px;  width: 200px;
+  -moz-backface-visibility: visible;
+  -moz-transform:  rotateX(270deg) translateZ(100px);
+  -ms-backface-visibility: visible;
+  -ms-transform:  rotateX(270deg) translateZ(100px);
+  -webkit-backface-visibility: visible;
+  -webkit-transform:  rotateX(270deg) translateZ(100px);
+  -o-backface-visibility: visible;
+  -o-transform: rotateX(270deg) translateZ(100px);
+  backface-visibility: visible;
+  transform: rotateX(270deg) translateZ(100px);
+}
+
+#top {
+  background-color: blue;
+  position: absolute;  height: 200px;  width: 200px;
+  -moz-backface-visibility: visible;
+  -moz-transform:  rotateX(90deg) translateZ(100px);
+  -ms-backface-visibility: visible;
+  -ms-transform:  rotateX(90deg) translateZ(100px);
+  -webkit-backface-visibility: visible;
+  -webkit-transform:  rotateX(90deg) translateZ(100px);
+  -o-backface-visibility: visible;
+  -o-transform: rotateX(90deg) translateZ(100px);
+  backface-visibility: visible;
+  transform: rotateX(90deg) translateZ(100px);
+}

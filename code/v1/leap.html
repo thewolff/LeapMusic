@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leap Noise | R/GA Group 5 Tech </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+    <style>
+    
+    	h1 {
+    		padding: 0 1em;
+    	}
+    
+    	.box {
+    		background: #efefef none;
+    		cursor: pointer;
+    		border-top: 1px #ccc solid;
+    		display: block;
+    	}
+    	
+    	.play {
+    		background: #cf0 none;
+    		text-align: center;
+    		padding: 32px 0;
+    	}
+    	
+    	.play h1 {
+    		margin: 0;
+    		padding: .5em 0;
+    		font-size: 18em;
+    		display: block;
+    	}
+    	
+    	.stop {
+    		background: #600 none;
+    	}
+    </style>
+    
+  </head>
+  <body>
+    
+    
+    <h1>Let's LEAP stuff..., I'll give you the finger(s):</h1>
+    <div class="box play"><h1 class="tell">&nbsp</h1></div>
+
+    <div class="box" id="out"></div>
+    
+    
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/leap.js"></script>
+    
+   <script>
+      var pausedFrame = null;
+      var latestFrame = null;
+      window.onkeypress = function(e) {
+        //space bar
+        if (e.charCode == 32) {
+          if (pausedFrame == null) {
+            pausedFrame = latestFrame;
+          } else {
+            pausedFrame = null;
+          }
+        }
+      };
+      
+      
+      var controller = new Leap.Controller({enableGestures: true});
+      controller.loop(function(frame) {
+        latestFrame = frame;
+
+        if (pausedFrame) {
+			$('#out').html('<p>Pause it</p>' + pausedFrame.dump());
+
+        } else {
+        	$('#out').html('');
+        	$('.tell').text($(latestFrame.pointables).length);
+        }
+      });
+      
+      controller.on('ready', function() {
+          console.log("ready");
+      });
+      controller.on('connect', function() {
+          console.log("connect");
+      });
+      controller.on('disconnect', function() {
+          console.log("disconnect");
+      });
+      controller.on('focus', function() {
+          console.log("focus");
+      });
+      controller.on('blur', function() {
+          console.log("blur");
+      });
+      controller.on('deviceConnected', function() {
+          console.log("deviceConnected");
+      });
+      controller.on('deviceDisconnected', function() {
+          console.log("deviceDisconnected");
+      });
+    </script>
+    
+  </body>
+</html>

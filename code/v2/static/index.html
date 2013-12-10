@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>eloy leap</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			padding: 0; 
+			font-family: verdana, arial, sans-serif; 
+		}
+		#status {
+			padding: 34px;
+			font-size: 24px;
+		}
+		#mixer {
+			
+		}
+		.box {
+			width: 25%;
+			float: left;
+		}
+		.box .content {
+			background: #fc0;
+			border-top: 1px solid #000;
+			border-right: 1px solid #000;
+			border-bottom: 1px solid #000;
+			height: 540px;
+			padding-top: 10%;
+			text-align: center;
+
+		}
+		.box.playing .content {
+			background: #9F0;
+		}
+
+		.box:last-child .content {
+			border-right: none;
+		}
+		canvas{
+			width:100%;
+			height:100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.cf:before,
+		.cf:after {
+		    content: " "; /* 1 */
+		    display: table; /* 2 */
+		}
+
+		.cf:after {
+		    clear: both;
+		}
+
+		/**
+		 * For IE 6/7 only
+		 * Include this rule to trigger hasLayout and contain floats.
+		 */
+		.cf {
+		    *zoom: 1;
+		}
+	</style>
+</head>
+<body>
+<!--
+<div id="status">hola</div>
+-->
+<canvas id="canvas"></canvas>
+<div class="cf" id="mixer"></div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="js/paper-full.min.js"></script>
+<script src="js/mixer-ui.js"></script>
+<script src="js/leap.min.js"></script>
+<script src="js/main-05.js"></script>
+<!--<script src="js/leap-box.js"></script> -->
+</body>
+</html>

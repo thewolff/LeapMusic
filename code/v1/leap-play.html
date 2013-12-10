@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leap Noise | R/GA Group 5 Tech </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    
+    <style>
+    
+    	h1 {
+    		padding: 0 1em;
+    	}
+    
+    	.box {
+    		background: #efefef none;
+    		cursor: pointer;
+    		border-top: 1px #ccc solid;
+    		display: block;
+    	}
+    	
+    	.play {
+    		background: #cf0 none;
+    		text-align: center;
+    		padding: 32px 0;
+    	}
+    	
+    	.play h1 {
+    		margin: 0;
+    		padding: .5em 0;
+    		font-size: 18em;
+    		display: block;
+    	}
+    	
+    	.stop {
+    		background: #600 none;
+    	}
+    </style>
+    
+  </head>
+  <body>
+    
+    
+    <h1>Way too many LEAPS:</h1>
+    <div class="box play"><h1 class="tell">&nbsp</h1></div>
+
+    <div class="box" id="out"></div>
+    
+    
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/leap.js"></script>
+    
+   <script>
+      var pausedFrame = null;
+      var latestFrame = null;
+      window.onkeypress = function(e) {
+        //space bar
+        if (e.charCode == 32) {
+          if (pausedFrame == null) {
+            pausedFrame = latestFrame;
+          } else {
+            pausedFrame = null;
+          }
+        }
+      };
+      
+      
+      var controller = new Leap.Controller({enableGestures: true});
+      controller.loop(function(frame) {
+        latestFrame = frame;
+
+        if (pausedFrame) {
+			$('#out').html('<p>Pause it</p>' + pausedFrame.dump());
+
+        } else {
+        	$('#out').html('');
+        	
+        	var fingersNum = $(latestFrame.pointables).length;
+
+        	$('.tell').text(fingersNum);
+        	
+        	if (fingersNum==5){
+        		startSound();
+        	}
+        }
+      });
+      
+    var context, soundSource, soundBuffer, 
+    //url = 'http://thelab.thingsinjars.com/web-audio-tutorial/hello.mp3';
+    url = 'http://groovylab.com/leap-noise/code/audio/VCR.mp3';
+    
+    // Step 1 - Initialise the Audio Context
+    // There can be only one!
+    function init() {
+        if (typeof AudioContext !== "undefined") {
+            context = new AudioContext();
+        } else if (typeof webkitAudioContext !== "undefined") {
+            context = new webkitAudioContext();
+        } else {
+            throw new Error('AudioContext not supported. :(');
+        }
+    }
+
+    // Step 2: Load our Sound using XHR
+    function startSound() {
+        // Note: this loads asynchronously
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.responseType = "arraybuffer";
+
+        // Our asynchronous callback
+        request.onload = function() {
+            var audioData = request.response;
+            audioGraph(audioData);
+        };
+
+        request.send();
+    }
+
+    // Finally: tell the source when to start
+
+    function playSound() {
+        // play the source now
+        // noteOne is depecrated?!?
+        soundSource.noteOn(context.currentTime);
+    }
+
+    function stopSound() {
+        // stop the source now
+        soundSource.noteOff(context.currentTime);
+    }
+
+    // Events for the play/stop bottons
+    //$('.play').click(startSound);
+    //$('.stop').click(stopSound);
+
+    function audioGraph(audioData) {
+        soundSource = context.createBufferSource();
+        soundBuffer = context.createBuffer(audioData, true);
+        soundSource.buffer = soundBuffer;
+
+        volumeNode = context.createGainNode();
+
+        //Set the volume
+        volumeNode.gain.value = 0.1;
+
+        // Wiring
+        soundSource.connect(volumeNode);
+        volumeNode.connect(context.destination);
+
+        // Finally
+        playSound(soundSource);
+    }
+
+
+    init();
+      
+      
+    </script>
+    
+  </body>
+</html>
