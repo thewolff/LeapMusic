@@ -226,10 +226,119 @@ var Loop = function(param) {
 	//loops.push(new Loop({mp3:'loops/string_loop_3.mp3', muted:true, volume:1, hands:2, pointables:6}));*/
 
 	Controller.init();
-	//MixerUI.createCanvas();
 
 	var c = MixerUI.createCanvas();
+	var canvasWidth = $('#canvas').width();
+	var canvasHeight = $('#canvas').height();
 	console.log(c);
+
+	function leapToScene( frame , leapPos ){
+
+	  // Gets the interaction box of the current frame
+	  var iBox = frame.interactionBox;
+
+	  // Gets the left border and top border of the box
+	  // In order to convert the position to the proper
+	  // location for the canvas
+	  var left = iBox.center[0] - iBox.size[0]/2;
+	  var top = iBox.center[1] + iBox.size[1]/2;
+
+	  // Takes our leap coordinates, and changes them so
+	  // that the origin is in the top left corner 
+	  var x = leapPos[0] - left;
+	  var y = leapPos[1] - top;
+
+	  // Divides the position by the size of the box
+	  // so that x and y values will range from 0 to 1
+	  // as they lay within the interaction box
+	  x /= iBox.size[0];
+	  y /= iBox.size[1];
+
+	  // Uses the height and width of the canvas to scale
+	  // the x and y coordinates in a way that they 
+	  // take up the entire canvas
+	  x *= canvasWidth;
+	  y *= canvasHeight;
+
+	  // Returns the values, making sure to negate the sign 
+	  // of the y coordinate, because the y basis in canvas 
+	  // points down instead of up
+	  return [ x , -y ];
+
+	}
+
+	var leapController = new Leap.Controller();
+
+	leapController.on('frame', function(frame){
+		// so we don't clutter things up
+		c.clearRect(0,0, canvasWidth, canvasHeight);
+
+		// Let's loop through some hands, yo.
+		for(var i =0, len = frame.hands.length; i < len; i++) {
+			
+			// well give the man a hand
+			var hand = frame.hands[i];
+
+			// let's get the position, for drawing goodness
+			var handPos = leapToScene(frame, hand.palmPosition);
+			
+			// Loop through all the fingers of this hand
+			for(var j = 0; j < hand.fingers.length; j++) {
+
+				// Define the finger we're on
+				var finger = hand.fingers[j];
+
+				// get it's position in Canvas
+				var fingerPos = leapToScene(frame, finger.tipPosition)
+
+				// LET'S GET DRAWING
+				// stroke styles
+				c.strokeStyle = "#FFA040";
+				c.lineWidth = 3;
+
+				// DRAWING TIME
+				c.beginPath();
+
+				// Move out to the hand position
+				c.moveTo(handPos[0], handPos[1]);
+
+				// Draw a line to the finger pos
+				c.lineTo(fingerPos[0], fingerPos[1]);
+
+				c.closePath();
+				c.stroke();
+
+				//Finger #2
+				c.strokeStyle = "#39AECF";
+				c.lineWidth = 5;
+
+				// Create the path for the finger circle
+				c.beginPath();
+
+				// Draw a full circle of radius 6 at the finger position
+				c.arc(fingerPos[0], fingerPos[1], 20, 0, Math.PI*2);
+
+				c.closePath();
+				c.stroke();
+			}
+
+			// Let's draw the hand now, k? k.
+			c.fillStyle = "#FF5A40";
+
+			// Creating the path for the hand circle of doom
+			c.beginPath();
+
+			// Draw a full circle of radios 10 at the hand pos
+
+			c.arc(handPos[0], handPos[1], 40, 0, Math.PI*2);
+
+			c.closePath();
+			c.fill();
+
+		}
+	});
+
+	leapController.connect();
 	
 	/*var counter = 0;
 
