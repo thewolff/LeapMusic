@@ -267,7 +267,7 @@ var Loop = function(param) {
 
 	}
 
-	var leapController = new Leap.Controller();
+	var leapController = new Leap.Controller({enableGestures: true});
 
 	leapController.on('frame', function(frame){
 		// so we don't clutter things up
@@ -336,6 +336,21 @@ var Loop = function(param) {
 			c.fill();
 
 		}
+
+		// GESTURE TIME - go on tell your friends
+
+		for( var i =  0; i < frame.gestures.length; i++){
+
+		    var gesture  = frame.gestures[i];
+		    var type = gesture.type;
+		    if(type == 'swipe') {
+		    	console.log('swipe!');
+		    }
+		    if(type == 'keyTap') {
+		    	console.log('tap');
+		    }
+
+		  }
 	});
 
 	leapController.connect();
