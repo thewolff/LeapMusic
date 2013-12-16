@@ -289,6 +289,7 @@ var Loop = function(param) {
 			console.log('BOX 4');
 			e.keyCode = 52;
 		}
+		$('#mixer').trigger(e);
 	}
 
 	var leapController = new Leap.Controller({enableGestures: true});
