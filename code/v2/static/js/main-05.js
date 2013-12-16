@@ -268,6 +268,29 @@ var Loop = function(param) {
 
 	}
 
+	function onTap () {
+		console.log(frame);
+		console.log('tap');
+		var gesturePos = leapToScene(frame.hands[0].palmPosition);
+		console.log(gesturePos[0]);
+		var e = $.Event('keypress');
+		// check the x position of the gesture to see which boxes bounds
+		// it falls within
+		if(gesturePos[0] > $('#01_Lessons_0').offset().left && gesturePos[0] <  $('#01_Lessons_0').offset().left + $('#01_Lessons_0').width()) {
+			console.log('BOX 1');
+			e.keyCode = 49;
+		} else if(gesturePos[0] > $('#01_Lessons_1').offset().left && gesturePos[0] <  $('#01_Lessons_1').offset().left + $('#01_Lessons_0').width()) {
+			console.log('BOX 2');
+			e.keyCode = 50;
+		} else if(gesturePos[0] > $('#01_Lessons_2').offset().left && gesturePos[0] <  $('#01_Lessons_2').offset().left + $('#01_Lessons_0').width()) {
+			console.log('BOX 3');
+			e.keyCode = 51;
+		} else if(gesturePos[0] > $('#01_Lessons_3').offset().left && gesturePos[0] <  $('#01_Lessons_3').offset().left + $('#01_Lessons_0').width()) {
+			console.log('BOX 4');
+			e.keyCode = 52;
+		}
+	}
+
 	var leapController = new Leap.Controller({enableGestures: true});
 
 	leapController.on('frame', function(data){
@@ -286,7 +309,7 @@ var Loop = function(param) {
 			var handPos = leapToScene(hand.palmPosition);
 			
 			// Loop through all the fingers of this hand
-			for(var j = 0; j < hand.fingers.length; j++) {
+			/*for(var j = 0; j < hand.fingers.length; j++) {
 
 				// Define the finger we're on
 				var finger = hand.fingers[j];
@@ -323,7 +346,7 @@ var Loop = function(param) {
 
 				c.closePath();
 				c.stroke();
-			}
+			}*/
 
 			// Let's draw the hand now, k? k.
 			c.fillStyle = "#FF5A40";
@@ -350,7 +373,9 @@ var Loop = function(param) {
 		    	console.log('swipe!');
 		    }
 		    if(type == 'keyTap') {
-		    	console.log('tap');
+		    	if(frame.hands[0] !== 'undefined') {
+		    		onTap();
+		    	}
 		    }
 
 		  }
