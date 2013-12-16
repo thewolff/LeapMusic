@@ -230,9 +230,10 @@ var Loop = function(param) {
 	var c = MixerUI.createCanvas();
 	var canvasWidth = $('#canvas').width();
 	var canvasHeight = $('#canvas').height();
+	var frame;
 	console.log(c);
 
-	function leapToScene( frame , leapPos ){
+	function leapToScene(leapPos ){
 
 	  // Gets the interaction box of the current frame
 	  var iBox = frame.interactionBox;
@@ -269,7 +270,9 @@ var Loop = function(param) {
 
 	var leapController = new Leap.Controller({enableGestures: true});
 
-	leapController.on('frame', function(frame){
+	leapController.on('frame', function(data){
+
+		frame = data;
 		// so we don't clutter things up
 		c.clearRect(0,0, canvasWidth, canvasHeight);
 
@@ -280,7 +283,7 @@ var Loop = function(param) {
 			var hand = frame.hands[i];
 
 			// let's get the position, for drawing goodness
-			var handPos = leapToScene(frame, hand.palmPosition);
+			var handPos = leapToScene(hand.palmPosition);
 			
 			// Loop through all the fingers of this hand
 			for(var j = 0; j < hand.fingers.length; j++) {
@@ -289,7 +292,7 @@ var Loop = function(param) {
 				var finger = hand.fingers[j];
 
 				// get it's position in Canvas
-				var fingerPos = leapToScene(frame, finger.tipPosition)
+				var fingerPos = leapToScene(finger.tipPosition)
 
 				// LET'S GET DRAWING
 				// stroke styles
