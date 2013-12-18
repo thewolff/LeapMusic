@@ -268,14 +268,31 @@ var Loop = function(param) {
 
 	}
 
+	function onSwipe(gesture) {
+		var $mixer = $('#mixer'), e = $.Event('keypress'),
+		char_codes = [49, 50, 51, 52];
+
+		if(gesture.state == 'stop') {
+			console.log('swipe')
+			for(var i = 0, len = char_codes.length; i < len; i ++) {
+				e.keyCode = char_codes[i];
+				$mixer.trigger(e);
+			}
+		}
+
+	}
+
 	function onTap () {
 		console.log(frame);
 		console.log('tap');
 		var gesturePos = leapToScene(frame.hands[0].palmPosition);
-		console.log(gesturePos[0]);
+		//console.log(gesturePos[0]);
 		var e = $.Event('keypress');
+
+		checkBounds(gesturePos[0]);
 		// check the x position of the gesture to see which boxes bounds
 		// it falls within
+		/*
 		if(gesturePos[0] > $('#01_Lessons_0').offset().left && gesturePos[0] <  $('#01_Lessons_0').offset().left + $('#01_Lessons_0').width()) {
 			console.log('BOX 1');
 			e.keyCode = 49;
@@ -290,6 +307,34 @@ var Loop = function(param) {
 			e.keyCode = 52;
 		}
 		$('#mixer').trigger(e);
+		*/
+	}
+
+	// check to see if a gesture is within the bounds of one or more boxes
+
+	function checkBounds (pos) {
+		var $box1 = $('#01_Lessons_0'), $box2 = $('#01_Lessons_1'), 
+		$box3 = $('#01_Lessons_2'), $box4 = $('#01_Lessons_3'),
+		$mixer = $('#mixer'), e = $.Event('keypress');
+
+		console.log('pos:',pos);
+		if(pos > $box1.offset().left && pos < $box1.offset().left + $box1.width()) {
+			console.log('box 1');
+			e.keyCode = 49;
+			$mixer.trigger(e);
+		} if(pos > $box2.offset().left && pos < $box2.offset().left + $box2.width()) {
+			console.log('box 2');
+			e.keyCode = 50;
+			$mixer.trigger(e);
+		} if(pos > $box3.offset().left && pos < $box3.offset().left + $box3.width()) {
+			console.log('box 3');
+			e.keyCode = 51;
+			$mixer.trigger(e);
+		} if(pos > $box4.offset().left && pos < $box4.offset().left + $box4.width()) {
+			console.log('box 4');
+			e.keyCode = 52;
+			$mixer.trigger(e);
+		}
 	}
 
 	var leapController = new Leap.Controller({enableGestures: true});
@@ -371,7 +416,7 @@ var Loop = function(param) {
 		    var gesture  = frame.gestures[i];
 		    var type = gesture.type;
 		    if(type == 'swipe') {
-		    	console.log('swipe!');
+		    	onSwipe(gesture);
 		    }
 		    if(type == 'keyTap') {
 		    	if(frame.hands[0] !== 'undefined') {
